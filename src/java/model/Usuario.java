@@ -8,38 +8,30 @@ package model;
 import DAO.UsuarioDAO;
 import java.sql.SQLException;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import org.jboss.weld.util.LazyValueHolder.Serializable;
 
 /**
  *
  * @author Salle
  */
-@Entity
-@Table(name = "USUARIO")
-public class Usuario extends Serializable {
-    @Id
-    @GeneratedValue
+
+public class Usuario {
     private int userId;
     private Nota nota;
     private String nome;
     private String endereco;
     private String telefone;
     private String email;
+    private String senha;
     private String esporteFavorito = "Surf";
-    @OneToMany
     private List<Usuario> amigos;
 
-    public Usuario(String nome, String endereco, String telefone, String email) {
+    public Usuario(String nome, String endereco, String telefone, String email, String senha) {
         this.nota = new Nota(userId);
         this.nome = nome;
         this.endereco = endereco;
         this.telefone = telefone;
         this.email = email;
+        this.senha = senha;
     }
 
     public int getId() {
@@ -114,13 +106,20 @@ public class Usuario extends Serializable {
         this.amigos.add(user);
     }
 
-    public void addUsuario() throws SQLException {
-        UsuarioDAO.criaUsuario(this);
+    public String getSenha() {
+        return senha;
     }
 
-    @Override
-    protected Object computeValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+    
+    public static Usuario getUser(int id) throws SQLException {
+        return UsuarioDAO.getUsuario(id);
+    }
+    
+    public void addUsuario() throws SQLException {
+        UsuarioDAO.criaUsuario(this);
     }
     
 }

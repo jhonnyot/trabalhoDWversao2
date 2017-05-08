@@ -1,9 +1,4 @@
-<%-- 
-    Document   : sucessoCadastroUser
-    Created on : May 7, 2017, 1:14:04 AM
-    Author     : Salle
---%>
-
+<%@page import="DAO.UsuarioDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,15 +8,15 @@
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
         <title>Trabalho-DW</title>
     </head>
-    <body>
-        <%@ include file="cabecalhoLogin.jsp" %>
-        <div class="jumbotron">
-            <div class="page-header">
-                <h1>Sucesso!</h1>                
-            </div> 
-            <p>Parabéns! Seu cadastro foi efetuado.</p>
-            <!--<p>Para começar a investir seu dinheiro, basta criar uma conta clicando <a href="cadastroConta.jsp">aqui</a>.</p>--> 
-            <br>             
-        </div>
-    </body>
+
+    <%@ include file="cabecalhoLogin.jsp" %>
+
+    <div class="page-header">
+        <h1>Sucesso!</h1>                
+    </div> 
+    <p>Parabéns! Seu cadastro foi efetuado.</p>
+    <p>Seu número de identificação é: <%=UsuarioDAO.retornaId()%> </p> 
+    <br>             
+
+
 </html>

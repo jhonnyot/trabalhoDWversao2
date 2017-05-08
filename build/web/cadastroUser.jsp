@@ -1,9 +1,3 @@
-<%-- 
-    Document   : cadastroUser
-    Created on : May 7, 2017, 12:14:05 AM
-    Author     : Salle
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -39,7 +33,11 @@
                 <div class="form-group">
                     <label for="telefone">Telefone Residencial: </label>
                     <input type="text" class="form-control" id="telefone" placeholder="Telefone Residencial" name="telefone">
-                </div>                            
+                </div>     
+                <div class="form-group">
+                    <label for="senha">Escolha uma senha: </label>
+                    <input type="text" class="form-control" id="senha" placeholder="Digite sua senha" name="senha">
+                </div> 
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
             </form>
         </div>

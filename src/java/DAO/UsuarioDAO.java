@@ -14,31 +14,41 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Usuario;
 
 public class UsuarioDAO {
 
     private static Connection conexao = ConexaoBD.getInstance().getConexao();
 
-    //método que insere um novo cliente no BD
     public static void criaUsuario(Usuario user) throws SQLException {
-        try (PreparedStatement sql = conexao.prepareStatement("INSERT INTO usuario VALUES(? ,? ,? ,? ,? )")) {
+        try (PreparedStatement sql = conexao.prepareStatement("INSERT INTO usuario VALUES(? ,? ,? ,? ,? ,? )")) {
             sql.setInt(1, user.getId());
             sql.setString(3, user.getEndereco());
             sql.setString(4, user.getTelefone());
             sql.setString(5, user.getEmail());
             sql.setString(2, user.getNome());
+            sql.setString(6, user.getSenha());
             sql.executeUpdate();
         }
     }
 
-    //método que retorna um objeto cliente com dados do BD de um cliente que possui um dado cpf
-    //se esse cliente não existir, retorna null
+    public static int retornaId() throws SQLException {
+        int id = 0;
+        try (PreparedStatement sql = conexao.prepareStatement("SELECT userId FROM usuario ORDER BY userId DESC LIMIT 1")) {
+            ResultSet result = sql.executeQuery();
+            if (result.next()) {
+                id = result.getInt(1);
+            }
+        } catch (SQLException e) {
+            
+        }
+        return id;
+    }
+    
+    
     public static Usuario getUsuario(int id) throws SQLException {
         Usuario user = null;
-        String nome, email, endereco, telefone;
+        String nome, email, endereco, telefone, senha;
         try (PreparedStatement sql = conexao.prepareStatement("SELECT * FROM usuario WHERE userId = ?")) {
             sql.setInt(1, id);
             ResultSet resultado = sql.executeQuery();
@@ -47,7 +57,8 @@ public class UsuarioDAO {
                 email = resultado.getString("email");
                 endereco = resultado.getString("endereco");
                 telefone = resultado.getString("telefone");
-                user = new Usuario(nome, endereco, telefone, email);
+                senha = resultado.getString("senha");
+                user = new Usuario(nome, endereco, telefone, email, senha);
             }
         }
         return user;

@@ -1,4 +1,3 @@
-/**
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,6 +5,10 @@
  */
 package servlets;
 
+/**
+ *
+ * @author Salle
+ */
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -18,56 +21,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Usuario;
-import model.ValidaEmail;
 
-/**
- *
- * @author Salle
- */
-@WebServlet(name = "UsuarioServlet", urlPatterns = {"/UsuarioServlet"})
-public class UsuarioServlet extends HttpServlet {
+@WebServlet(name = "ValidaLoginServlet", urlPatterns = {"/ValidaLoginServlet"})
+public class ValidaLoginServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String nome = request.getParameter("nome");
-            String email = request.getParameter("email");
-            String endereco = request.getParameter("endereco");
-            String telefone = request.getParameter("telefone");
+
+            int id = Integer.parseInt(request.getParameter("userId"));
             String senha = request.getParameter("senha");
-            
-//validação dos dados inseridos
-            boolean nomeIsValid = (nome != null);
-            boolean telefoneIsValid = (telefone != null);
-            boolean emailIsValid = (email != null);
-            boolean enderecoIsValid = (endereco != null);
 
-            if (emailIsValid) {
-                emailIsValid = new ValidaEmail().validate(email);
-            }
-
-            boolean cadastroIsValid = nomeIsValid && telefoneIsValid && emailIsValid && enderecoIsValid;
-
-            //se os dados forem validados, cria cadastro  
-            if (cadastroIsValid) {
-                Usuario user = new Usuario(nome, endereco, telefone, email, senha);
-                user.addUsuario();
-                response.sendRedirect("sucessoCadastroUser.jsp");
+            Usuario user = Usuario.getUser(id);
+            if (user != null && (senha == null ? user.getSenha() == null : senha.equals(user.getSenha()))) {
+                request.getSession().setAttribute("userId", user);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/home.jsp");
+                if (dispatcher != null) {
+                    dispatcher.forward(request, response);
+                }
             } else {
-                //se os dados não forem validados, retorna para a página anterior
-                String erro = "Houve algum problema com seu cadastro! Por favor, preencha o formulário abaixo novamente conforme as recomendações em cada campo.";
+                String erro = "Login incorreto. Tente de novo... ";
                 request.setAttribute("erro", erro);
-                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/cadastroUser.jsp");
+
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
                 if (dispatcher != null) {
                     dispatcher.forward(request, response);
                 }
@@ -90,7 +67,7 @@ public class UsuarioServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(UsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ValidaLoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -108,7 +85,7 @@ public class UsuarioServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(UsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ValidaLoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
