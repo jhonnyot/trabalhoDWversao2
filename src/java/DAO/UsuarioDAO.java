@@ -40,12 +40,11 @@ public class UsuarioDAO {
                 id = result.getInt(1);
             }
         } catch (SQLException e) {
-            
+
         }
         return id;
     }
-    
-    
+
     public static Usuario getUsuario(int id) throws SQLException {
         Usuario user = null;
         String nome, email, endereco, telefone, senha;
@@ -59,6 +58,23 @@ public class UsuarioDAO {
                 telefone = resultado.getString("telefone");
                 senha = resultado.getString("senha");
                 user = new Usuario(nome, endereco, telefone, email, senha);
+            }
+        }
+        return user;
+    }
+    
+    public static Usuario getUsuarioByName(String name) throws SQLException {
+        Usuario user = null;
+        String nome, email, endereco, telefone;
+        try (PreparedStatement sql = conexao.prepareStatement("SELECT * FROM usuario WHERE nome = ?")) {
+            sql.setString(1, name);
+            ResultSet resultado = sql.executeQuery();
+            if (resultado.next()) {
+                nome = resultado.getString("nome");
+                email = resultado.getString("email");
+                endereco = resultado.getString("endereco");
+                telefone = resultado.getString("telefone");
+                user = new Usuario(nome, endereco, telefone, email);
             }
         }
         return user;

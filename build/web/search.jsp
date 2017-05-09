@@ -1,5 +1,9 @@
+<%@page import="DAO.UsuarioDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="servlets.BuscaServlet"%>
+<%@page import="servlets.AdicionaAmigoServlet"%>
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -21,12 +25,21 @@
                         <div class="page-header">
                             <h1>Olá, <%= user.getNome()%>!</h1>
                         </div>
-                        <form method="post" role="form" action="UsuarioServlet">
+                        <form method="post" role="form" action="BuscaServlet">
                             <div class="form-group">
-                                <label for="nome">Procurar Usuário: </label>
+                                <label for="nome">Procurar </label>
                                 <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome">
                             </div>
                             <button type="submit" class="btn btn-primary">Procurar</button>
+                        </form>
+                    </div>
+
+                    <div class="container">
+                        <%=usuario = UsuarioDAO.getUsuarioByName(request.getParameter("nome"))%> 
+                        <!--usuario.getNome() request.getParameter("nome")-->
+                        <h1> Usuario Encontrado: <%=request.getParameter("nome")%>!</h1>
+                        <form method="get" role="form" action="AdicionaAmigoServlet">
+                            <button type="submit" class="btn btn-primary">Adicionar</button>
                         </form>
                     </div>
                 </div>

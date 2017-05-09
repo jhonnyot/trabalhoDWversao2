@@ -22,42 +22,35 @@ import model.ValidaEmail;
 
 /**
  *
- * @author Salle
+ * @author guilherme
  */
-@WebServlet(name = "BuscaServlet", urlPatterns = {"/BuscaServlet"})
-public class BuscaServlet extends HttpServlet {
+@WebServlet(name = "AdicionaAmigoServlet", urlPatterns = {"/AdicionaAmigoServlet"})
+public class AdicionaAmigoServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            Usuario user = null;
+            
             String nome = request.getParameter("nome");
+            //Pega o usuario da sessão
+            Usuario usuarioAtual = null;
+            usuarioAtual = (Usuario) request.getSession().getAttribute("userId");
+            Usuario usuarioAAdicionar = null;
+            //Pega o usuario que está sendo passado no formulario
+            usuarioAAdicionar = UsuarioDAO.getUsuarioByName(nome);
+            usuarioAtual.addAmigo(usuarioAAdicionar);
 
-            boolean nomeIsValid = (nome != null);
-            if (nomeIsValid) {
-                user = UsuarioDAO.getUsuarioByName(nome);
-            } 
-          
+            response.sendRedirect("amigos.jsp");
+
             String erro = "Houve algum problema com seu cadastro! Por favor, preencha o formulário abaixo novamente conforme as recomendações em cada campo.";
             request.setAttribute("erro", erro);
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/search.jsp");
-            if (dispatcher != null) {
-                dispatcher.forward(request, response);
-            }
+            
         }
     }
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -72,7 +65,7 @@ public class BuscaServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(BuscaServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -90,7 +83,7 @@ public class BuscaServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(BuscaServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

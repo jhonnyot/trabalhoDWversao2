@@ -1,6 +1,7 @@
 <%@page import="model.Usuario"%>
 <% 
     Usuario user = (Usuario) session.getAttribute("userId");
+    Usuario usuario = null;
 %>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">

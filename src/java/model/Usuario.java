@@ -7,14 +7,15 @@ package model;
 
 import DAO.UsuarioDAO;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author Salle
  */
-
 public class Usuario {
+
     private int userId;
     private Nota nota;
     private String nome;
@@ -32,6 +33,19 @@ public class Usuario {
         this.telefone = telefone;
         this.email = email;
         this.senha = senha;
+        amigos = new ArrayList<>();
+    }
+
+    public Usuario() {
+    
+    }
+
+    public Usuario(String nome, String endereco, String telefone, String email) {
+        this.nome = nome;
+        this.endereco = endereco;
+        this.telefone = telefone;
+        this.email = email;
+        amigos = new ArrayList<>();
     }
 
     public int getId() {
@@ -73,35 +87,35 @@ public class Usuario {
     public String getEsporteFavorito() {
         return esporteFavorito;
     }
-    
+
     public long getNotaConhecido() {
         return this.nota.getNotaConhecido();
     }
-    
+
     public long getNotaHospedagem() {
         return this.nota.getNotaHospedagem();
     }
-    
+
     public long getNotaEsporte() {
         return this.nota.getNotaEsporte();
     }
-    
+
     public void setNotaConhecido(long nota) {
         this.nota.setNotaConhecido(nota);
     }
-    
+
     public void setNotaHospedagem(long nota) {
         this.nota.setNotaHospedagem(nota);
     }
-    
+
     public void setNotaEsporte(long nota) {
         this.nota.setNotaEsporte(nota);
     }
-    
+
     public List<Usuario> getAmigos() {
         return amigos;
     }
-    
+
     public void addAmigo(Usuario user) {
         this.amigos.add(user);
     }
@@ -113,13 +127,13 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    
+
     public static Usuario getUser(int id) throws SQLException {
         return UsuarioDAO.getUsuario(id);
     }
-    
+
     public void addUsuario() throws SQLException {
         UsuarioDAO.criaUsuario(this);
     }
-    
+
 }
