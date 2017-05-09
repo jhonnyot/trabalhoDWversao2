@@ -31,7 +31,7 @@ public class AdicionaAmigoServlet extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
+            //ISSO INFELIZMENTE NÃO FUNFA
             String nome = request.getParameter("nome");
             //Pega o usuario da sessão
             Usuario usuarioAtual = null;
