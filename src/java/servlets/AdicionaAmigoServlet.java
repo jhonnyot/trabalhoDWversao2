@@ -31,8 +31,7 @@ public class AdicionaAmigoServlet extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            //ISSO INFELIZMENTE NÃO FUNFA
-            String nome = request.getParameter("nome");
+            String nome = request.getParameter("name");
             //Pega o usuario da sessão
             Usuario usuarioAtual = null;
             usuarioAtual = (Usuario) request.getSession().getAttribute("userId");
@@ -40,15 +39,16 @@ public class AdicionaAmigoServlet extends HttpServlet {
             //Pega o usuario que está sendo passado no formulario
             usuarioAAdicionar = UsuarioDAO.getUsuarioByName(nome);
             usuarioAtual.addAmigo(usuarioAAdicionar);
-
             response.sendRedirect("amigos.jsp");
-
-            String erro = "Houve algum problema com seu cadastro! Por favor, preencha o formulário abaixo novamente conforme as recomendações em cada campo.";
+                    
+            String erro = "Houve algum problema!";
             request.setAttribute("erro", erro);
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/search.jsp");
             
-        }
+        } catch (Exception ex) {
+            ex.printStackTrace();
     }
+}
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
     /**

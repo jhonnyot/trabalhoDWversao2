@@ -8,6 +8,7 @@ package model;
 import DAO.UsuarioDAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public class Usuario {
     }
 
     public Usuario() {
-    
+
     }
 
     public Usuario(String nome, String endereco, String telefone, String email) {
@@ -113,7 +114,28 @@ public class Usuario {
     }
 
     public List<Usuario> getAmigos() {
-        return amigos;
+        return this.amigos;
+    }
+
+    public String getInfoAmigos() {
+        String retorno = "Você ainda não adicionou nenhum amigo.";
+        if (!this.amigos.isEmpty()) {
+            retorno = "";
+            try {
+                for (Iterator<Usuario> it = this.amigos.iterator(); it.hasNext();) {
+                    Usuario user = it.next();
+                    retorno += "Nome: ";
+                    retorno += user.getNome();
+                    retorno += "; ID: ";
+                    retorno += Integer.toString(user.getId());
+                    retorno += ".";
+                    retorno += System.lineSeparator();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return retorno;
     }
 
     public void addAmigo(Usuario user) {

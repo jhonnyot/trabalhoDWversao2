@@ -40,17 +40,17 @@ public class BuscaServlet extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            Usuario user = null;
+            Usuario usuario = null;
             String nome = request.getParameter("nome");
 
             boolean nomeIsValid = (nome != null);
             if (nomeIsValid) {
-                user = UsuarioDAO.getUsuarioByName(nome);
+                usuario = UsuarioDAO.getUsuarioByName(nome);
             } 
           
-            String erro = "Houve algum problema com seu cadastro! Por favor, preencha o formulário abaixo novamente conforme as recomendações em cada campo.";
+            String erro = "Houve algum problema.";
             request.setAttribute("erro", erro);
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/search.jsp");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/userEncontrado.jsp");
             if (dispatcher != null) {
                 dispatcher.forward(request, response);
             }

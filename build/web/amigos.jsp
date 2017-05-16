@@ -1,10 +1,3 @@
-<%-- 
-    Document   : amigos
-    Created on : May 8, 2017, 8:43:11 PM
-    Author     : Salle
---%>
-
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -28,7 +21,7 @@
                         <div class="page-header">
                             <h1>Olá, <%= user.getNome()%>!</h1>
                             <h2>Estes são seus amigos:</h2>
-                            <p><%= user.getAmigos()%></p>
+                            <p><%= user.getInfoAmigos()%></p>
                         </div> 
                     </div>
                 </div>

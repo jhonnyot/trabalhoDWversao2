@@ -33,14 +33,6 @@
                             <button type="submit" class="btn btn-primary">Procurar</button>
                         </form>
                     </div>
-                     <%=usuario = UsuarioDAO.getUsuarioByName(request.getParameter("nome"))%>        
-                    <div class="container">
-                        <!--usuario.getNome() request.getParameter("nome")-->
-                        <h1> Usuario Encontrado: <%=request.getParameter("nome")%>!</h1>
-                        <form method="get" role="form" action="AdicionaAmigoServlet">
-                            <button type="submit" class="btn btn-primary">Adicionar</button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>
